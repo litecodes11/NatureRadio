@@ -5,66 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Nature Waves — Full Playlist (10 tracks)</title>
 <style>
-  :root{
-    --bg:#0b2b1f; --bg2:#123b2a; --fg:#eaf7ef; --muted:#bfe3cc;
-    --card:#0f3325cc; --accent:#78d39b; --accent2:#38b27a; --shadow:0 10px 30px rgba(0,0,0,.35);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; color:var(--fg); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    background:
-      radial-gradient(1200px 600px at 10% -10%, #1a794f22 30%, transparent 60%),
-      radial-gradient(900px 500px at 90% 0%, #39b57a1c 20%, transparent 60%),
-      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-    display:flex; align-items:center; justify-content:center; padding:24px;
-  }
-  .wrap{width:min(980px,100%); display:grid; gap:16px; grid-template-columns:1.2fr .9fr}
-  @media (max-width:860px){.wrap{grid-template-columns:1fr}}
-  .card{background:var(--card); border:1px solid #ffffff1a; border-radius:18px; box-shadow:var(--shadow); backdrop-filter:blur(6px)}
-  header.card{padding:20px 22px; display:flex; gap:14px; align-items:center}
-  .logo{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
-    background:radial-gradient(circle at 30% 30%,#8cf0b9 0%,#46c487 55%,#2aa66f 100%);}
-  .logo svg{width:34px;height:34px;fill:#0f3325}
-  h1{margin:0;font-size:1.35rem}
-  .tag{font-size:.9rem;color:var(--muted)}
-  .player.card{padding:18px}
-  .now{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center; margin-bottom:14px}
-  .art{width:92px; height:92px; border-radius:12px; overflow:hidden; background:#1a3c2e}
-  .art img{width:100%; height:100%; object-fit:cover; display:block}
-  .title{font-weight:700; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .subtitle{color:var(--muted); font-size:.9rem}
-  .controls{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
-  .btns{display:flex; gap:10px; align-items:center}
-  button{appearance:none; border:1px solid #ffffff2a; color:var(--fg);
-    background:linear-gradient(180deg,#1a4a36,#103828); padding:10px 12px; border-radius:12px;
-    cursor:pointer; box-shadow: inset 0 0 0 1px #0000002a, 0 6px 14px #0000003a}
-  button:hover{filter:brightness(1.06)} button:active{transform:translateY(1px)}
-  .main{display:flex; align-items:center; gap:8px; justify-content:center}
-  .main button{padding:12px 14px}
-  .progress{display:flex; align-items:center; gap:8px}
-  .time{font-variant-numeric:tabular-nums; font-size:.9rem; color:var(--muted)}
-  input[type="range"]{width:100%}
-  .vol{display:flex; align-items:center; gap:8px; min-width:140px; justify-content:flex-end}
-  .list.card{padding:10px}
-  ul{list-style:none; margin:0; padding:0}
-  li{display:grid; grid-template-columns: 48px 1fr auto; gap:12px; align-items:center;
-     padding:8px 10px; border-radius:12px; cursor:pointer}
-  li:hover{background:#ffffff12}
-  li.active{background:#2aa66f33; outline:1px solid #78d39b66}
-  .thumb{width:48px; height:48px; border-radius:8px; overflow:hidden; background:#1a3c2e}
-  .thumb img{width:100%; height:100%; object-fit:cover; display:block}
-  .track-title{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .dur{color:var(--muted); font-size:.9rem}
-  footer{text-align:center; color:#cde9d6; opacity:.85; font-size:.9rem; margin-top:6px}
-  .toast{margin-top:8px;padding:10px 12px;border-radius:10px;background:#9b1c1c22;border:1px solid #ffb4b44a;color:#ffd9d9;display:none}
+:root{
+  --bg:#0b2b1f; --bg2:#123b2a; --fg:#eaf7ef; --muted:#bfe3cc;
+  --card:#0f3325cc; --accent:#78d39b; --accent2:#38b27a; --shadow:0 10px 30px rgba(0,0,0,.3)
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--fg); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1a794f22 30%, transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, #39b57a1c 20%, transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  display:flex; align-items:flex-start; justify-content:center; padding:24px;
+}
+.wrap{width:min(980px,100%); display:grid; gap:16px; grid-template-columns:1fr}
+.card{background:var(--card); border:1px solid #ffffff1a; border-radius:18px; box-shadow:var(--shadow); backdrop-filter:blur(6px)}
+header.card{padding:20px 22px; display:flex; gap:14px; align-items:center}
+.logo{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
+  background:radial-gradient(circle at 30% 30%,#8fc0b9 0%,#46c487 55%,#2aa66f 100%);}
+.logo svg{width:34px;height:34px;fill:#0f3325}
+h1{margin:0;font-size:1.35rem}
+.tag{font-size:.9rem;color:var(--muted)}
+.player.card{padding:18px}
+.now{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;margin-bottom:12px}
+.art{width:92px;height:92px;border-radius:12px;overflow:hidden;background:#1a3c2e}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.now h2{margin:0 0 4px 0}
+.controls{display:flex;gap:10px}
+.controls button{width:42px;height:42px;border-radius:12px;border:1px solid #ffffff22;background:#0f3328;color:var(--fg);cursor:pointer}
+.progress{display:flex;align-items:center;gap:10px;margin-top:10px}
+.progress input[type="range"]{flex:1}
+.row{display:flex;align-items:center;gap:12px}
+#playlist{list-style:none;margin:0;padding:0}
+#playlist li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;cursor:pointer}
+#playlist li:hover{background:#ffffff0f}
+#playlist li.active{background:#0f3a2a}
+.thumb{width:44px;height:44px;border-radius:9px;overflow:hidden;background:#0e2b22}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.track-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dur{opacity:.75}
+footer.tip{color:var(--muted);font-size:.9rem;text-align:center;padding:12px}
+.toast{display:none;margin-top:10px;color:#ffd8d8}
 </style>
 </head>
 <body>
-  <div class="wrap" role="application" aria-label="Nature Waves Radio">
-    <header class="card" aria-label="Station header">
+  <div class="wrap">
+    <header class="card">
       <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M21 3C12 3 4 7.5 3 16c-.3 2.7 1.2 5 3.9 5.3 8.5.9 13.1-7.2 13.1-18.3zM7.8 18.1c2.1-3.9 5.4-6.8 8.7-8.5-3.7 2-7 5.3-8.7 8.5z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12.6 2.7c5.3 0 8.7 3.3 8.7 8.6 0 5.9-4.8 10-9.8 10-4.8 0-8.9-3.2-8.9-8.5 0-6 4.9-10.1 10-10.1ZM11 6c-3 2.2-4.8 5.4-4.8 8.3 0 1.9.9 3.1 2.7 3.1 3.9 0 6.9-4.6 7.7-8.4.3-1.3-.5-2.2-1.8-2.2-1 0-2.4.4-3.8 1.2Z"/></svg>
       </div>
       <div>
         <h1>Nature Waves Radio</h1>
@@ -72,147 +61,138 @@
       </div>
     </header>
 
-    <section class="player card" aria-label="Player">
+    <section class="player card">
       <div class="now">
-        <div class="art"><img id="nowArt" alt="Current track cover"></div>
-        <div class="meta">
-          <div id="nowTitle" class="title">—</div>
-          <div id="nowSubtitle" class="subtitle">Nature Waves · Stream</div>
+        <div class="art"><img id="nowArt" alt="Album art" /></div>
+        <div>
+          <h2 id="nowTitle">—</h2>
+          <div class="tag">Nature Waves · Stream</div>
+          <div class="row" style="margin-top:8px">
+            <div class="controls">
+              <button id="prevBtn" aria-label="Previous track">⟨⟨</button>
+              <button id="playBtn" aria-label="Play/Pause">▶︎</button>
+              <button id="nextBtn" aria-label="Next track">⟩⟩</button>
+            </div>
+          </div>
+          <div class="progress">
+            <span id="curTime">0:00</span>
+            <input id="seek" type="range" min="0" max="100" value="0" />
+            <span id="totTime">0:00</span>
+            <span style="margin-left:12px">🔊</span>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" style="min-width:160px"/>
+          </div>
+          <div id="toast" class="toast"></div>
         </div>
+        <audio id="audio"></audio>
       </div>
 
-      <div id="toast" class="toast"></div>
-
-      <div class="controls">
-        <div class="btns">
-          <button id="prevBtn" aria-label="Previous track">⏮︎</button>
-          <div class="main"><button id="playBtn" aria-label="Play/Pause">▶︎</button></div>
-          <button id="nextBtn" aria-label="Next track">⏭︎</button>
-        </div>
-        <div class="progress" style="min-width:180px">
-          <span id="curTime" class="time">0:00</span>
-          <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
-          <span id="totTime" class="time">0:00</span>
-        </div>
-        <div class="vol">
-          <span aria-hidden="true">🔊</span>
-          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="Volume" />
-        </div>
-      </div>
-
-      <audio id="audio" preload="metadata" class="visually-hidden"></audio>
+      <ul id="playlist"></ul>
     </section>
 
-    <aside class="list card" aria-label="Playlist">
-      <ul id="playlist" aria-live="polite"></ul>
-    </aside>
-
-    <footer style="grid-column:1 / -1">
-      Place this file and your 10 WAVs in the <b>same folder</b>.  
-      Add images (e.g. <code>aurora_hum.jpg</code>) if you want cover art to appear.
+    <footer class="tip">
+      Place this file and your 10 audio files in the <b>same folder</b>. Add images (e.g. <code>aurora_hum.jpeg</code>) for cover art.
     </footer>
   </div>
 
-<script>
-(() => {
-  // Use base names only; we'll resolve .mp3 then .wav
-  const tracks = [
-    { title: "Aurora Hum",      base: "aurora_hum",      cover: "aurora_hum" },
-    { title: "Forest Breeze",   base: "forest_breeze",   cover: "forest_breeze" },
-    { title: "Gentle Rainfall", base: "gentle_rainfall", cover: "gentle_rainfall" },
-    { title: "Mountain Stream", base: "mountain_stream", cover: "mountain_stream" },
-    { title: "Birds at Dawn",   base: "birds_at_dawn",   cover: "birds_at_dawn" },
-    { title: "Ocean Waves",     base: "ocean_waves",     cover: "ocean_waves" },
-    { title: "Thunderstorm",    base: "thunderstorm",    cover: "thunderstorm" },
-    { title: "Desert Wind",     base: "desert_wind",     cover: "desert_wind" },
-    { title: "Night Crickets",  base: "night_crickets",  cover: "night_crickets" },
-    { title: "Cave Drips",      base: "cave_drips",      cover: "cave_drips" }
-  ];
+  <!-- === JS: MP3-first, then WAV === -->
+  <script>
+  (() => {
+    const tracks = [
+      { title: "Aurora Hum",      base: "aurora_hum",      cover: "aurora_hum" },
+      { title: "Forest Breeze",   base: "forest_breeze",   cover: "forest_breeze" },
+      { title: "Gentle Rainfall", base: "gentle_rainfall", cover: "gentle_rainfall" },
+      { title: "Mountain Stream", base: "mountain_stream", cover: "mountain_stream" },
+      { title: "Birds at Dawn",   base: "birds_at_dawn",   cover: "birds_at_dawn" },
+      { title: "Ocean Waves",     base: "ocean_waves",     cover: "ocean_waves" },
+      { title: "Thunderstorm",    base: "thunderstorm",    cover: "thunderstorm" },
+      { title: "Desert Wind",     base: "desert_wind",     cover: "desert_wind" },
+      { title: "Night Crickets",  base: "night_crickets",  cover: "night_crickets" },
+      { title: "Cave Drips",      base: "cave_drips",      cover: "cave_drips" }
+    ];
+    const extsAudio = [".mp3",".wav"];                 // GitHub Pages prefers MP3
+    const extsImg   = [".jpeg",".jpg",".png",".webp"]; // your covers are .jpeg
 
-  const extsAudio = [".mp3", ".wav"];        // <- try MP3 first (GitHub Pages), then WAV
-  const extsImg   = [".jpg",".png",".webp",".jpeg"]; // your covers are .jpeg, this handles it
+    const audio = document.getElementById('audio');
+    const playlistEl = document.getElementById('playlist');
+    const nowTitle = document.getElementById('nowTitle');
+    const nowArt = document.getElementById('nowArt');
+    const curTime = document.getElementById('curTime');
+    const totTime = document.getElementById('totTime');
+    const seek = document.getElementById('seek');
+    const volume = document.getElementById('volume');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const toast = document.getElementById('toast');
+    let index = 0, seeking = false;
 
-  const audio = document.getElementById('audio');
-  const playlistEl = document.getElementById('playlist');
-  const nowTitle = document.getElementById('nowTitle');
-  const nowArt = document.getElementById('nowArt');
-  const curTime = document.getElementById('curTime');
-  const totTime = document.getElementById('totTime');
-  const seek = document.getElementById('seek');
-  const volume = document.getElementById('volume');
-  const playBtn = document.getElementById('playBtn');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const toast = document.getElementById('toast');
+    const fmt = s => { if(!isFinite(s)) return "0:00"; s=Math.max(0,Math.floor(s)); const m=Math.floor(s/60), ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; };
+    function showToast(msg){ toast.textContent = msg; toast.style.display='block'; clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.style.display='none', 5000); }
 
-  let index = 0, seeking = false;
-  const fmt = s => { if(!isFinite(s)) return "0:00"; s=Math.max(0,Math.floor(s)); const m=Math.floor(s/60), ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; };
-  function showToast(msg){ if(!toast) return; toast.textContent = msg; toast.style.display='block'; clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.style.display='none', 5000); }
-
-  function resolveAudio(base, onready){
-    let i = 0;
-    function tryNext(){
-      if (i >= extsAudio.length){ showToast(`Audio not found: ${base}`); return; }
-      const candidate = base + extsAudio[i++];
-      const test = new Audio(); test.preload = "metadata"; test.src = candidate;
-      test.onerror = tryNext;
-      test.onloadedmetadata = () => onready(candidate);
+    function resolveAudio(base, onready){
+      let i = 0;
+      function tryNext(){
+        if (i >= extsAudio.length){ showToast(`Audio not found: ${base}`); return; }
+        const candidate = base + extsAudio[i++];
+        const t = new Audio(); t.preload="metadata"; t.src = candidate;
+        t.onerror = tryNext;
+        t.onloadedmetadata = () => onready(candidate);
+      }
+      tryNext();
     }
-    tryNext();
-  }
+    function setCover(imgEl, base){
+      let i = 0;
+      imgEl.onerror = () => { if (i < extsImg.length) imgEl.src = base + extsImg[i++]; else imgEl.style.display='none'; };
+      imgEl.src = base + extsImg[i++];
+    }
 
-  function setCover(imgEl, base){
-    let i = 0; imgEl.onerror = () => { if (i < extsImg.length) imgEl.src = base + extsImg[i++]; else imgEl.style.display='none'; };
-    imgEl.src = base + extsImg[i++];
-  }
+    function renderList(){
+      playlistEl.innerHTML = "";
+      tracks.forEach((t,i)=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<div class="thumb"><img alt=""></div><div class="track-title"></div><div class="dur">0:45</div>`;
+        li.querySelector('.track-title').textContent = t.title;
+        setCover(li.querySelector('img'), t.cover);
+        li.addEventListener('click',()=>loadTrack(i,true));
+        playlistEl.appendChild(li);
+      });
+      markActive();
+    }
+    function markActive(){ [...playlistEl.children].forEach((li,i)=>li.classList.toggle('active', i===index)); }
+    function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶︎" : "⏸︎"; }
 
-  function renderList(){
-    playlistEl.innerHTML = "";
-    tracks.forEach((t,i)=>{
-      const li = document.createElement('li');
-      li.innerHTML = `<div class="thumb"><img alt=""></div><div class="track-title"></div><div class="dur">—</div>`;
-      li.querySelector('.track-title').textContent = t.title;
-      setCover(li.querySelector('img'), t.cover);
-      li.addEventListener('click',()=>loadTrack(i,true));
-      playlistEl.appendChild(li);
-    });
-    markActive();
-  }
+    function loadTrack(i, autoplay=false){
+      index = (i + tracks.length) % tracks.length;
+      const tr = tracks[index];
+      nowTitle.textContent = tr.title;
+      setCover(nowArt, tr.cover);
+      curTime.textContent="0:00"; totTime.textContent="0:00"; seek.value=0;
+      markActive();
 
-  function markActive(){ [...playlistEl.children].forEach((li,i)=>li.classList.toggle('active', i===index)); }
-  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶︎" : "⏸︎"; }
+      resolveAudio(tr.base, (src) => {
+        audio.src = src;
+        if (autoplay) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`));
+        syncPlayButton();
+        audio.addEventListener('loadedmetadata',()=> totTime.textContent = fmt(audio.duration), { once:true });
+        audio.addEventListener('error', ()=> showToast(`Could not play “${tr.title}”.`), { once:true });
+      });
+    }
 
-  function loadTrack(i, autoplay=false){
-    index = (i + tracks.length) % tracks.length;
-    const tr = tracks[index];
-    nowTitle.textContent = tr.title;
-    setCover(nowArt, tr.cover);
-    curTime.textContent="0:00"; totTime.textContent="0:00"; seek.value=0;
-    markActive();
-    resolveAudio(tr.base, (src) => {
-      audio.src = src;
-      audio.addEventListener('error', () => showToast(`Could not play “${tr.title}”.`), { once:true });
-      if (autoplay) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`));
-      syncPlayButton();
-      audio.addEventListener('loadedmetadata',()=>{ totTime.textContent = fmt(audio.duration); });
-    });
-  }
+    playBtn.addEventListener('click',()=>{ if(!audio.src) loadTrack(index,true); else if(audio.paused) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`)); else audio.pause(); });
+    prevBtn.addEventListener('click',()=>loadTrack(index-1,true));
+    nextBtn.addEventListener('click',()=>loadTrack(index+1,true));
+    audio.addEventListener('play',syncPlayButton);
+    audio.addEventListener('pause',syncPlayButton);
+    audio.addEventListener('timeupdate',()=>{ if(seeking) return; curTime.textContent = fmt(audio.currentTime); if(audio.duration) seek.value=(audio.currentTime/audio.duration)*100; });
+    audio.addEventListener('ended',()=>loadTrack(index+1,true));
+    seek.addEventListener('input',()=>{ seeking=true; const pos=(seek.value/100)*(audio.duration||0); curTime.textContent = fmt(pos); });
+    seek.addEventListener('change',()=>{ audio.currentTime=(seek.value/100)*(audio.duration||0); seeking=false; });
+    volume.addEventListener('input',()=>{ audio.volume = +volume.value; });
 
-  playBtn.addEventListener('click',()=>{ if(!audio.src) loadTrack(index,true); else if(audio.paused) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`)); else audio.pause(); });
-  prevBtn.addEventListener('click',()=>loadTrack(index-1,true));
-  nextBtn.addEventListener('click',()=>loadTrack(index+1,true));
-  audio.addEventListener('play',syncPlayButton);
-  audio.addEventListener('pause',syncPlayButton);
-  audio.addEventListener('timeupdate',()=>{ if(seeking) return; curTime.textContent = fmt(audio.currentTime); if(audio.duration) seek.value=(audio.currentTime/audio.duration)*100; });
-  audio.addEventListener('ended',()=>loadTrack(index+1,true));
-  seek.addEventListener('input',()=>{ seeking=true; const pos=(seek.value/100)*(audio.duration||0); curTime.textContent = fmt(pos); });
-  seek.addEventListener('change',()=>{ audio.currentTime=(seek.value/100)*(audio.duration||0); seeking=false; });
-  volume.addEventListener('input',()=>{ audio.volume = +volume.value; });
-
-  renderList();
-  loadTrack(0,false);
-  audio.volume = +volume.value;
-})();
-</script>
+    renderList();
+    loadTrack(0,false);
+    audio.volume = +volume.value;
+  })();
+  </script>
 </body>
 </html>
