@@ -115,18 +115,22 @@
 
 <script>
 (() => {
+  // Use base names only; we'll resolve .mp3 then .wav
   const tracks = [
-    { title: "Aurora Hum",        src: "aurora_hum.wav",        cover: "aurora_hum",        duration: "—" },
-    { title: "Forest Breeze",     src: "forest_breeze.wav",     cover: "forest_breeze",     duration: "—" },
-    { title: "Gentle Rainfall",   src: "gentle_rainfall.wav",   cover: "gentle_rainfall",   duration: "—" },
-    { title: "Mountain Stream",   src: "mountain_stream.wav",   cover: "mountain_stream",   duration: "—" },
-    { title: "Birds at Dawn",     src: "birds_at_dawn.wav",     cover: "birds_at_dawn",     duration: "—" },
-    { title: "Ocean Waves",       src: "ocean_waves.wav",       cover: "ocean_waves",       duration: "—" },
-    { title: "Thunderstorm",      src: "thunderstorm.wav",      cover: "thunderstorm",      duration: "—" },
-    { title: "Desert Wind",       src: "desert_wind.wav",       cover: "desert_wind",       duration: "—" },
-    { title: "Night Crickets",    src: "night_crickets.wav",    cover: "night_crickets",    duration: "—" },
-    { title: "Cave Drips",        src: "cave_drips.wav",        cover: "cave_drips",        duration: "—" }
+    { title: "Aurora Hum",      base: "aurora_hum",      cover: "aurora_hum" },
+    { title: "Forest Breeze",   base: "forest_breeze",   cover: "forest_breeze" },
+    { title: "Gentle Rainfall", base: "gentle_rainfall", cover: "gentle_rainfall" },
+    { title: "Mountain Stream", base: "mountain_stream", cover: "mountain_stream" },
+    { title: "Birds at Dawn",   base: "birds_at_dawn",   cover: "birds_at_dawn" },
+    { title: "Ocean Waves",     base: "ocean_waves",     cover: "ocean_waves" },
+    { title: "Thunderstorm",    base: "thunderstorm",    cover: "thunderstorm" },
+    { title: "Desert Wind",     base: "desert_wind",     cover: "desert_wind" },
+    { title: "Night Crickets",  base: "night_crickets",  cover: "night_crickets" },
+    { title: "Cave Drips",      base: "cave_drips",      cover: "cave_drips" }
   ];
+
+  const extsAudio = [".mp3", ".wav"];        // <- try MP3 first (GitHub Pages), then WAV
+  const extsImg   = [".jpg",".png",".webp",".jpeg"]; // your covers are .jpeg, this handles it
 
   const audio = document.getElementById('audio');
   const playlistEl = document.getElementById('playlist');
@@ -142,26 +146,33 @@
   const toast = document.getElementById('toast');
 
   let index = 0, seeking = false;
-
   const fmt = s => { if(!isFinite(s)) return "0:00"; s=Math.max(0,Math.floor(s)); const m=Math.floor(s/60), ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; };
-  function showToast(msg){ toast.textContent = msg; toast.style.display='block'; clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.style.display='none', 5000); }
+  function showToast(msg){ if(!toast) return; toast.textContent = msg; toast.style.display='block'; clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.style.display='none', 5000); }
 
-  function setCover(imgEl, cover) {
-    const exts = [".jpg",".png",".webp",".jpeg"];
+  function resolveAudio(base, onready){
     let i = 0;
-    imgEl.onerror = () => { if (i<exts.length) imgEl.src = cover+exts[i++]; else imgEl.style.display='none'; };
-    imgEl.src = cover+exts[i++];
+    function tryNext(){
+      if (i >= extsAudio.length){ showToast(`Audio not found: ${base}`); return; }
+      const candidate = base + extsAudio[i++];
+      const test = new Audio(); test.preload = "metadata"; test.src = candidate;
+      test.onerror = tryNext;
+      test.onloadedmetadata = () => onready(candidate);
+    }
+    tryNext();
+  }
+
+  function setCover(imgEl, base){
+    let i = 0; imgEl.onerror = () => { if (i < extsImg.length) imgEl.src = base + extsImg[i++]; else imgEl.style.display='none'; };
+    imgEl.src = base + extsImg[i++];
   }
 
   function renderList(){
     playlistEl.innerHTML = "";
     tracks.forEach((t,i)=>{
       const li = document.createElement('li');
-      const thumb = document.createElement('div'); thumb.className='thumb';
-      const img = document.createElement('img'); img.alt = t.title; setCover(img,t.cover); thumb.appendChild(img);
-      const title = document.createElement('div'); title.className='track-title'; title.textContent = t.title;
-      const dur = document.createElement('div'); dur.className='dur'; dur.textContent = t.duration || "—";
-      li.append(thumb,title,dur);
+      li.innerHTML = `<div class="thumb"><img alt=""></div><div class="track-title"></div><div class="dur">—</div>`;
+      li.querySelector('.track-title').textContent = t.title;
+      setCover(li.querySelector('img'), t.cover);
       li.addEventListener('click',()=>loadTrack(i,true));
       playlistEl.appendChild(li);
     });
@@ -169,50 +180,38 @@
   }
 
   function markActive(){ [...playlistEl.children].forEach((li,i)=>li.classList.toggle('active', i===index)); }
+  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶︎" : "⏸︎"; }
 
   function loadTrack(i, autoplay=false){
     index = (i + tracks.length) % tracks.length;
     const tr = tracks[index];
-    audio.src = tr.src;
     nowTitle.textContent = tr.title;
     setCover(nowArt, tr.cover);
     curTime.textContent="0:00"; totTime.textContent="0:00"; seek.value=0;
     markActive();
-    audio.addEventListener('error', () => showToast(`Could not play “${tr.title}”. Check file path/format.`), { once:true });
-    if (autoplay) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`));
-    syncPlayButton();
+    resolveAudio(tr.base, (src) => {
+      audio.src = src;
+      audio.addEventListener('error', () => showToast(`Could not play “${tr.title}”.`), { once:true });
+      if (autoplay) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`));
+      syncPlayButton();
+      audio.addEventListener('loadedmetadata',()=>{ totTime.textContent = fmt(audio.duration); });
+    });
   }
 
-  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶︎" : "⏸︎"; }
-
-  // Controls
   playBtn.addEventListener('click',()=>{ if(!audio.src) loadTrack(index,true); else if(audio.paused) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`)); else audio.pause(); });
   prevBtn.addEventListener('click',()=>loadTrack(index-1,true));
   nextBtn.addEventListener('click',()=>loadTrack(index+1,true));
   audio.addEventListener('play',syncPlayButton);
   audio.addEventListener('pause',syncPlayButton);
-  audio.addEventListener('loadedmetadata',()=>{ totTime.textContent = fmt(audio.duration); });
   audio.addEventListener('timeupdate',()=>{ if(seeking) return; curTime.textContent = fmt(audio.currentTime); if(audio.duration) seek.value=(audio.currentTime/audio.duration)*100; });
   audio.addEventListener('ended',()=>loadTrack(index+1,true));
   seek.addEventListener('input',()=>{ seeking=true; const pos=(seek.value/100)*(audio.duration||0); curTime.textContent = fmt(pos); });
   seek.addEventListener('change',()=>{ audio.currentTime=(seek.value/100)*(audio.duration||0); seeking=false; });
   volume.addEventListener('input',()=>{ audio.volume = +volume.value; });
 
-  // Fill durations
-  function probeDurations(){
-    tracks.forEach((t,i)=>{
-      const p = new Audio(); p.preload="metadata"; p.src=t.src;
-      p.addEventListener('loadedmetadata', ()=>{
-        tracks[i].duration = fmt(p.duration);
-        const li = playlistEl.children[i]; if (li) li.querySelector('.dur').textContent = tracks[i].duration;
-      });
-    });
-  }
-
   renderList();
   loadTrack(0,false);
   audio.volume = +volume.value;
-  probeDurations();
 })();
 </script>
 </body>
