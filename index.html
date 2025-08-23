@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nature Waves — Full Playlist (10 tracks)</title>
+<style>
+  :root{
+    --bg:#0b2b1f; --bg2:#123b2a; --fg:#eaf7ef; --muted:#bfe3cc;
+    --card:#0f3325cc; --accent:#78d39b; --accent2:#38b27a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--fg); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #1a794f22 30%, transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, #39b57a1c 20%, transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .wrap{width:min(980px,100%); display:grid; gap:16px; grid-template-columns:1.2fr .9fr}
+  @media (max-width:860px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--card); border:1px solid #ffffff1a; border-radius:18px; box-shadow:var(--shadow); backdrop-filter:blur(6px)}
+  header.card{padding:20px 22px; display:flex; gap:14px; align-items:center}
+  .logo{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
+    background:radial-gradient(circle at 30% 30%,#8cf0b9 0%,#46c487 55%,#2aa66f 100%);}
+  .logo svg{width:34px;height:34px;fill:#0f3325}
+  h1{margin:0;font-size:1.35rem}
+  .tag{font-size:.9rem;color:var(--muted)}
+  .player.card{padding:18px}
+  .now{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center; margin-bottom:14px}
+  .art{width:92px; height:92px; border-radius:12px; overflow:hidden; background:#1a3c2e}
+  .art img{width:100%; height:100%; object-fit:cover; display:block}
+  .title{font-weight:700; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .subtitle{color:var(--muted); font-size:.9rem}
+  .controls{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
+  .btns{display:flex; gap:10px; align-items:center}
+  button{appearance:none; border:1px solid #ffffff2a; color:var(--fg);
+    background:linear-gradient(180deg,#1a4a36,#103828); padding:10px 12px; border-radius:12px;
+    cursor:pointer; box-shadow: inset 0 0 0 1px #0000002a, 0 6px 14px #0000003a}
+  button:hover{filter:brightness(1.06)} button:active{transform:translateY(1px)}
+  .main{display:flex; align-items:center; gap:8px; justify-content:center}
+  .main button{padding:12px 14px}
+  .progress{display:flex; align-items:center; gap:8px}
+  .time{font-variant-numeric:tabular-nums; font-size:.9rem; color:var(--muted)}
+  input[type="range"]{width:100%}
+  .vol{display:flex; align-items:center; gap:8px; min-width:140px; justify-content:flex-end}
+  .list.card{padding:10px}
+  ul{list-style:none; margin:0; padding:0}
+  li{display:grid; grid-template-columns: 48px 1fr auto; gap:12px; align-items:center;
+     padding:8px 10px; border-radius:12px; cursor:pointer}
+  li:hover{background:#ffffff12}
+  li.active{background:#2aa66f33; outline:1px solid #78d39b66}
+  .thumb{width:48px; height:48px; border-radius:8px; overflow:hidden; background:#1a3c2e}
+  .thumb img{width:100%; height:100%; object-fit:cover; display:block}
+  .track-title{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .dur{color:var(--muted); font-size:.9rem}
+  footer{text-align:center; color:#cde9d6; opacity:.85; font-size:.9rem; margin-top:6px}
+  .toast{margin-top:8px;padding:10px 12px;border-radius:10px;background:#9b1c1c22;border:1px solid #ffb4b44a;color:#ffd9d9;display:none}
+</style>
+</head>
+<body>
+  <div class="wrap" role="application" aria-label="Nature Waves Radio">
+    <header class="card" aria-label="Station header">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M21 3C12 3 4 7.5 3 16c-.3 2.7 1.2 5 3.9 5.3 8.5.9 13.1-7.2 13.1-18.3zM7.8 18.1c2.1-3.9 5.4-6.8 8.7-8.5-3.7 2-7 5.3-8.7 8.5z"/></svg>
+      </div>
+      <div>
+        <h1>Nature Waves Radio</h1>
+        <div class="tag">10-track ambient playlist • loopable nature soundscapes</div>
+      </div>
+    </header>
+
+    <section class="player card" aria-label="Player">
+      <div class="now">
+        <div class="art"><img id="nowArt" alt="Current track cover"></div>
+        <div class="meta">
+          <div id="nowTitle" class="title">—</div>
+          <div id="nowSubtitle" class="subtitle">Nature Waves · Stream</div>
+        </div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+
+      <div class="controls">
+        <div class="btns">
+          <button id="prevBtn" aria-label="Previous track">⏮︎</button>
+          <div class="main"><button id="playBtn" aria-label="Play/Pause">▶︎</button></div>
+          <button id="nextBtn" aria-label="Next track">⏭︎</button>
+        </div>
+        <div class="progress" style="min-width:180px">
+          <span id="curTime" class="time">0:00</span>
+          <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
+          <span id="totTime" class="time">0:00</span>
+        </div>
+        <div class="vol">
+          <span aria-hidden="true">🔊</span>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="Volume" />
+        </div>
+      </div>
+
+      <audio id="audio" preload="metadata" class="visually-hidden"></audio>
+    </section>
+
+    <aside class="list card" aria-label="Playlist">
+      <ul id="playlist" aria-live="polite"></ul>
+    </aside>
+
+    <footer style="grid-column:1 / -1">
+      Place this file and your 10 WAVs in the <b>same folder</b>.  
+      Add images (e.g. <code>aurora_hum.jpg</code>) if you want cover art to appear.
+    </footer>
+  </div>
+
+<script>
+(() => {
+  const tracks = [
+    { title: "Aurora Hum",        src: "aurora_hum.wav",        cover: "aurora_hum",        duration: "—" },
+    { title: "Forest Breeze",     src: "forest_breeze.wav",     cover: "forest_breeze",     duration: "—" },
+    { title: "Gentle Rainfall",   src: "gentle_rainfall.wav",   cover: "gentle_rainfall",   duration: "—" },
+    { title: "Mountain Stream",   src: "mountain_stream.wav",   cover: "mountain_stream",   duration: "—" },
+    { title: "Birds at Dawn",     src: "birds_at_dawn.wav",     cover: "birds_at_dawn",     duration: "—" },
+    { title: "Ocean Waves",       src: "ocean_waves.wav",       cover: "ocean_waves",       duration: "—" },
+    { title: "Thunderstorm",      src: "thunderstorm.wav",      cover: "thunderstorm",      duration: "—" },
+    { title: "Desert Wind",       src: "desert_wind.wav",       cover: "desert_wind",       duration: "—" },
+    { title: "Night Crickets",    src: "night_crickets.wav",    cover: "night_crickets",    duration: "—" },
+    { title: "Cave Drips",        src: "cave_drips.wav",        cover: "cave_drips",        duration: "—" }
+  ];
+
+  const audio = document.getElementById('audio');
+  const playlistEl = document.getElementById('playlist');
+  const nowTitle = document.getElementById('nowTitle');
+  const nowArt = document.getElementById('nowArt');
+  const curTime = document.getElementById('curTime');
+  const totTime = document.getElementById('totTime');
+  const seek = document.getElementById('seek');
+  const volume = document.getElementById('volume');
+  const playBtn = document.getElementById('playBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const toast = document.getElementById('toast');
+
+  let index = 0, seeking = false;
+
+  const fmt = s => { if(!isFinite(s)) return "0:00"; s=Math.max(0,Math.floor(s)); const m=Math.floor(s/60), ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; };
+  function showToast(msg){ toast.textContent = msg; toast.style.display='block'; clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.style.display='none', 5000); }
+
+  function setCover(imgEl, cover) {
+    const exts = [".jpg",".png",".webp",".jpeg"];
+    let i = 0;
+    imgEl.onerror = () => { if (i<exts.length) imgEl.src = cover+exts[i++]; else imgEl.style.display='none'; };
+    imgEl.src = cover+exts[i++];
+  }
+
+  function renderList(){
+    playlistEl.innerHTML = "";
+    tracks.forEach((t,i)=>{
+      const li = document.createElement('li');
+      const thumb = document.createElement('div'); thumb.className='thumb';
+      const img = document.createElement('img'); img.alt = t.title; setCover(img,t.cover); thumb.appendChild(img);
+      const title = document.createElement('div'); title.className='track-title'; title.textContent = t.title;
+      const dur = document.createElement('div'); dur.className='dur'; dur.textContent = t.duration || "—";
+      li.append(thumb,title,dur);
+      li.addEventListener('click',()=>loadTrack(i,true));
+      playlistEl.appendChild(li);
+    });
+    markActive();
+  }
+
+  function markActive(){ [...playlistEl.children].forEach((li,i)=>li.classList.toggle('active', i===index)); }
+
+  function loadTrack(i, autoplay=false){
+    index = (i + tracks.length) % tracks.length;
+    const tr = tracks[index];
+    audio.src = tr.src;
+    nowTitle.textContent = tr.title;
+    setCover(nowArt, tr.cover);
+    curTime.textContent="0:00"; totTime.textContent="0:00"; seek.value=0;
+    markActive();
+    audio.addEventListener('error', () => showToast(`Could not play “${tr.title}”. Check file path/format.`), { once:true });
+    if (autoplay) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`));
+    syncPlayButton();
+  }
+
+  function syncPlayButton(){ playBtn.textContent = audio.paused ? "▶︎" : "⏸︎"; }
+
+  // Controls
+  playBtn.addEventListener('click',()=>{ if(!audio.src) loadTrack(index,true); else if(audio.paused) audio.play().catch(e=>showToast(`Play failed: ${e.message||e}`)); else audio.pause(); });
+  prevBtn.addEventListener('click',()=>loadTrack(index-1,true));
+  nextBtn.addEventListener('click',()=>loadTrack(index+1,true));
+  audio.addEventListener('play',syncPlayButton);
+  audio.addEventListener('pause',syncPlayButton);
+  audio.addEventListener('loadedmetadata',()=>{ totTime.textContent = fmt(audio.duration); });
+  audio.addEventListener('timeupdate',()=>{ if(seeking) return; curTime.textContent = fmt(audio.currentTime); if(audio.duration) seek.value=(audio.currentTime/audio.duration)*100; });
+  audio.addEventListener('ended',()=>loadTrack(index+1,true));
+  seek.addEventListener('input',()=>{ seeking=true; const pos=(seek.value/100)*(audio.duration||0); curTime.textContent = fmt(pos); });
+  seek.addEventListener('change',()=>{ audio.currentTime=(seek.value/100)*(audio.duration||0); seeking=false; });
+  volume.addEventListener('input',()=>{ audio.volume = +volume.value; });
+
+  // Fill durations
+  function probeDurations(){
+    tracks.forEach((t,i)=>{
+      const p = new Audio(); p.preload="metadata"; p.src=t.src;
+      p.addEventListener('loadedmetadata', ()=>{
+        tracks[i].duration = fmt(p.duration);
+        const li = playlistEl.children[i]; if (li) li.querySelector('.dur').textContent = tracks[i].duration;
+      });
+    });
+  }
+
+  renderList();
+  loadTrack(0,false);
+  audio.volume = +volume.value;
+  probeDurations();
+})();
+</script>
+</body>
+</html>
